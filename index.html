@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica 2</title>
+    <link rel="stylesheet" href="assets/estilo.css">
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <script src="assets/js/Nivel1.js"></script>
+</head>
+<body>
+    <div class="Container">
+        <div class="contenido">
+
+            <div class="arriba">
+                <h1>Practica 2</h1>
+                <h2>Nombre: Zhen Axel Hu Fernández</h2>
+                <h2>Grupo: #5</h2>
+            </div>
+            <div class="abajo">
+                <div id="contenedor-juego"></div>
+            </div>
+
+        </div>
+    </div>
+        
+        <script>
+        const config = { 
+            type: Phaser.AUTO, 
+            scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+                width: 700, 
+                height: 500
+            },
+            backgroundColor: '#000000',
+            scene: [Nivel1],
+            parent: 'contenedor-juego',
+
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 300 },
+                    debug: false
+                }
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+
+
+    </script>
+</body>
+</html>
