@@ -1,0 +1,215 @@
+{
+  "frames": {
+    "Personaje principal IDLE1": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal IDLE2": {
+      "frame": {
+        "x": 31,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal IDLE3": {
+      "frame": {
+        "x": 61,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal IDLE4": {
+      "frame": {
+        "x": 91,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal CAMINANDO1": {
+      "frame": {
+        "x": 121,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal CAMINANDO2": {
+      "frame": {
+        "x": 151,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal CAMINANDO3": {
+      "frame": {
+        "x": 181,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal CAMINANDO4": {
+      "frame": {
+        "x": 211,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal saltando1": {
+      "frame": {
+        "x": 241,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    },
+    "Personaje principal saltando2": {
+      "frame": {
+        "x": 271,
+        "y": 1,
+        "w": 29,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 29,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 29,
+        "h": 64
+      }
+    }
+  },
+  "meta": {
+    "app": "Sprite Sheet Maker",
+    "version": "1.0",
+    "image": "spritesheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 301,
+      "h": 66
+    },
+    "scale": "1"
+  }
+}
