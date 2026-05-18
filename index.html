@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practica 2</title>
+    <title>Practica 4</title>
     <link rel="stylesheet" href="assets/estilo.css">
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <script src="assets/js/menuScene.js"></script>
     <script src="assets/js/Nivel1.js"></script>
     <script src="assets/js/Items.js"></script>
     <script src="assets/js/Player.js"></script>
+    <script src="assets/js/enemy.js"></script>
     <script src="assets/js/Hud.js"></script>
+    <script src="assets/js/gameOver.js"></script>
 </head>
 <body>
     <div class="Container">
         <div class="contenido">
 
             <div class="arriba">
-                <h1>Practica 3</h1>
+                <h1>Practica 4</h1>
                 <h2>Nombre: Zhen Axel Hu Fernández</h2>
                 <h2>Grupo: #5</h2>
             </div>
@@ -37,7 +40,7 @@
                 height: 500
             },
             backgroundColor: '#000000',
-            scene: [Nivel1],
+            scene: [MenuScene, Nivel1,  gameOver],
             parent: 'contenedor-juego',
 
             physics: {

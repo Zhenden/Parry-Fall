@@ -26,11 +26,11 @@ class Items extends Phaser.Physics.Arcade.Sprite {
             onComplete: () => {
             player.setScale(0.7); // Asegura que vuelva a su tamaño original
             }
-        })
+        });
+                // ✅ el evento solo le dice al HUD qué pasó
         this.scene.events.emit('get-items', {
             tipo: this.tipo,
-            valor: this.valor,
-            player: player
+            valor: this.valor
         });
         console.log('Item colectado:', this.tipo, 'Valor:', this.valor);
 

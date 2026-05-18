@@ -6,13 +6,16 @@ class Nivel1 extends Phaser.Scene {
 
     preload() {
         this.load.image('fondo', 'assets/img/fondo_dia.png');
+        this.load.image("bg_gameover", "assets/img/gameover.png");
         this.load.atlas('player', 'assets/img/spritesheet.png', 'assets/js/spritesheet.json');
+        this.load.image('muerte_img', 'assets/img/muerto.png');
         this.load.image('plataforma', 'assets/img/plataforma.png');
         this.load.image('plataforma2', 'assets/img/plataformaflo.png');
         this.load.image('pared', 'assets/img/paredcesped.png');
         this.load.image('moneda_sprite', 'assets/img/moneda.png');
         this.load.image('corazon_sprite', 'assets/img/corazon.png');
         this.load.image('cristal_sprite', 'assets/img/cristal_energia.png');
+        this.load.spritesheet('enemy', 'assets/img/enemy_slim.png', { frameWidth: 24, frameHeight: 24 });
     }
 
     create() {
@@ -23,6 +26,7 @@ class Nivel1 extends Phaser.Scene {
         this.hud = new Hud(this);
         //player
         this.player = new Player(this, 300, 300, 'player', 300, 300);
+        this.enemy = new Enemy(this, 600, 300, 'enemy', this.player, 60, 30, 50);
         //monedas
         this.items = this.physics.add.group();
         this.ground = this.physics.add.staticGroup();
@@ -42,7 +46,7 @@ class Nivel1 extends Phaser.Scene {
 
         //crear cristales usando el método crearCristales
         this.crearCristales(500, 200, 1);
-        this.crearCristales(900, 300, 2);
+        this.crearCristales(900, 270, 2);
         this.crearCristales(1400, 200, 1);
         
         //crear plataformas
@@ -57,8 +61,18 @@ class Nivel1 extends Phaser.Scene {
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.collider(this.items, this.ground);
         this.physics.add.overlap(this.player, this.items, (player, item) => {
-            item.collect(this.player);
+            item.collect(player);
+            player.velocidadCristal(item);
+            player.recuperarVida(item);
         });
+
+        // Asegurar que el enemigo colisione con el suelo y no caiga fuera del mundo
+        if (this.enemy) {
+            this.physics.add.collider(this.enemy, this.ground);
+            this.enemy.setCollideWorldBounds(true);
+            this.enemy.setBounce(0);
+            this.enemy.setScale(1.2);
+        }
 
         this.worldWidth = 1500;
         this.worldHeight = 500;
@@ -74,11 +88,35 @@ class Nivel1 extends Phaser.Scene {
         );
         this.fondo.setDepth(-1); // Asegura que el fondo esté detrás de todo
 
+        // En Nivel1.js - método create()
+
+    // Escuchar evento de muerte del jugador
+    this.events.on('player-dead', () => {
+        // Desactivar el enemigo
+        if (this.enemy) {
+            this.enemy.active = false;
+            this.enemy.setVelocity(0, 0);
+            this.enemy.body.enable = false;
+        }
+        
+        // Desactivar la física de colisiones
+        this.physics.world.colliders.destroy();
+        
+        // Desactivar la generación de items
+        if (this.items) {
+            this.items.clear(true, true);
+        }
+        });
     }
 
     update(time, delta) {
-    this.player.update(time, delta)      
+        this.player.update(time, delta);
+        if (this.enemy && typeof this.enemy.update === 'function') {
+            this.enemy.update(time, delta);
+        }
     }
+
+
 
     crearMuros(){
         //suelo

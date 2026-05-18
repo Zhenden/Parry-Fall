@@ -7,6 +7,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.velocidadBase = velocidad;  // propiedad del objeto, no const local
         this.velocidad     = velocidad;
         this.impulso       = impulso;
+        this.vida          = 10;
         this.setScale(0.7);
         
         // Variables de salto
@@ -18,6 +19,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.alturaSalto     = 0;
         this.tiempoSalto     = 0;
         this.tiempoSaltoMAX  = 0.45;
+        this.tiempoUltimoGolpe   = 0;
+        this.cooldown            = 1000; // ms
+
+        this.isLive = true;
+        this.canDamage = true;
 
         // Variables de power up
         this.powerUpActivo = false;
@@ -25,9 +31,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // Variables de animación
         this.estabaEnAire = false;
 
-        this.scene.events.on('get-items', this.velocidadCristal, this);
         this.initControls();
         this.initAnimations();
+        this.scene.events.on('vida-recuperada', this.recuperarVida, this);
     }
 
     initControls() {
@@ -113,6 +119,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         const moviendose = this.body.velocity.x !== 0;
         const animActual = this.anims.currentAnim?.key;
         const animActiva = this.anims.isPlaying;
+        const muerto     = !this.isLive;
 
         if (this.saltando && subiendo) {
             this.anims.play('jump', true);
@@ -132,7 +139,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if (animActual !== 'land' || !animActiva) {
                 this.anims.play('idle', true);
             }
+        } else if (muerto) {
+            if (animActual !== 'idle' || !animActiva) {
+                this.anims.play('muerte', true);
+            }
         }
+
+
 
         this.estabaEnAire = !enSuelo;
     }
@@ -152,8 +165,88 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         });
     }
 
+    recuperarVida(item) {
+        if (item.tipo !== 'vida') return;
+        this.vida = Math.min(this.vida + item.valor, 10);
+        console.log('Vida actual:', this.vida);
+    }
+
+    damage(danio = 3) {
+        if (!this.canDamage) return;  // Verifica si puede recibir daño
+        if (!this.isLive) return;      // Verifica si está vivo
+
+        this.vida -= danio;
+        console.log('Vida restante:', this.vida);
+        
+        // Desactivar la capacidad de recibir daño por 1 segundo
+        this.canDamage = false;
+        
+        // Efecto visual de daño (parpadeo rojo)
+        this.scene.tweens.add({
+            targets: this,
+            alpha: {from: 1, to: 0.5},
+            duration: 10,
+            repeat: 5,
+            yoyo: true,
+            ease: 'linear',
+            onStart: () => {
+                this.setTint(0xff0000);
+            },
+            onRepeat: () => {
+                // Alterna el tinte rojo
+                if (!this.active) return; // Evita tintar si el sprite ya no está activo
+                if (this.tintTopLeft === 0xff0000) {
+                    this.clearTint();
+                } else {
+                    this.setTint(0xff0000);
+                }
+            },
+            onComplete: () => {
+                if (this.active) {
+                    this.clearTint();
+                    this.setAlpha(1);
+                }
+            }
+        });
+        
+        // Reactivar la capacidad de recibir daño después de 1 segundo
+        this.scene.time.delayedCall(1000, () => {
+            this.canDamage = true;
+            console.log('Player puede recibir daño nuevamente');
+        });
+        
+        // Emitir evento para actualizar el HUD
+        this.scene.events.emit('player-damaged', this.vida);
+        
+        // Verificar si el jugador murió
+        if (this.vida <= 0) {
+            this.morir();
+        }
+    }
+
+
+// En Player.js
+    morir() {
+        if (!this.isLive) return;
+
+        this.isLive = false;
+        this.body.enable = false; // Desactiva la física para evitar colisiones después de morir
+        this.setTexture('muerte_img'); // Cambia a la imagen de muerte
+        this.setVelocityX(0);
+
+        this.scene.time.delayedCall(1000, () => {
+            this.scene.scene.start('gameOver');
+        });
+    }
+    
     update(time, delta) {
         const dt = (typeof delta === 'number' && isFinite(delta)) ? delta : 16.6;
+
+        if (!this.isLive) {
+            this.setVelocityX(0);
+            this.setTexture('muerte_img'); // Cambia a la imagen de muerte
+            return;
+        }
 
         // Movimiento horizontal
         if (this.cursors.left.isDown) {
